@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .search-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #doctorSearch {
+            padding: 10px;
+            width: 60%;
+            max-width: 400px;
+        }
+
+        #searchBtn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        #searchBtn:hover {
+            background-color: #0056b3;
+        }
+
+        .doctor-list {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .doctor-item {
+            cursor: pointer;
+            padding: 10px;
+            margin: 5px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+        }
+
+        .doctor-item:hover {
+            background-color: #dee2e6;
+        }
+
+        .appointments {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .appointment-item {
+            padding: 10px;
+            margin: 5px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+
+        .appointment-item p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Doctor Search</h1>
+        <div class="search-section">
+            <input type="text" id="doctorSearch" placeholder="Search for doctors...">
+            <button id="searchBtn">Search</button>
+        </div>
+        <div id="doctorList" class="doctor-list">
+            <!-- Doctor list will appear here -->
+        </div>
+        <div id="appointments" class="appointments">
+            <!-- Appointments will appear here -->
+        </div>
+    </div>
+    <script>
+        // Sample data with 5 doctors and enhanced appointment details
+        const doctors = [
+            { 
+                name: 'Dr. John Smith', 
+                appointments: [
+                    { patientName: 'Alice Johnson', age: 30, time: '2024-08-17 10:00 AM' },
+                    { patientName: 'Bob Brown', age: 45, time: '2024-08-18 02:00 PM' }
+                ] 
+            },
+            { 
+                name: 'Dr. Jane Doe', 
+                appointments: [
+                    { patientName: 'Carol White', age: 50, time: '2024-08-17 11:00 AM' },
+                    { patientName: 'David Clark', age: 36, time: '2024-08-18 01:00 PM' }
+                ] 
+            },
+            { 
+                name: 'Dr. Emily Davis', 
+                appointments: [
+                    { patientName: 'Ella Adams', age: 29, time: '2024-08-17 09:00 AM' },
+                    { patientName: 'Frank Harris', age: 60, time: '2024-08-18 03:00 PM' }
+                ] 
+            },
+            { 
+                name: 'Dr. Michael Brown', 
+                appointments: [
+                    { patientName: 'Grace Lee', age: 42, time: '2024-08-17 01:00 PM' },
+                    { patientName: 'Henry Miller', age: 55, time: '2024-08-18 04:00 PM' }
+                ] 
+            },
+            { 
+                name: 'Dr. Olivia Wilson', 
+                appointments: [
+                    { patientName: 'Isabella Martinez', age: 27, time: '2024-08-17 12:00 PM' },
+                    { patientName: 'Jack Wilson', age: 34, time: '2024-08-18 05:00 PM' }
+                ] 
+            }
+        ];
+
+        // Function to save data to localStorage
+        function saveToLocalStorage() {
+            localStorage.setItem('doctors', JSON.stringify(doctors));
+        }
+
+        // Function to load data from localStorage
+        function loadFromLocalStorage() {
+            const savedDoctors = localStorage.getItem('doctors');
+            if (savedDoctors) {
+                return JSON.parse(savedDoctors);
+            }
+            return doctors; // If nothing saved, return default data
+        }
+
+        // Function to display appointments
+        function displayAppointments(appointments) {
+            const appointmentsDiv = document.getElementById('appointments');
+            appointmentsDiv.innerHTML = '<h2>Appointments</h2>' + appointments.map(appt => `
+                <div class="appointment-item">
+                    <p><strong>Patient Name:</strong> ${appt.patientName}</p>
+                    <p><strong>Age:</strong> ${appt.age}</p>
+                    <p><strong>Time:</strong> ${appt.time}</p>
+                </div>
+            `).join('');
+        }
+
+        // Search button click event
+        document.getElementById('searchBtn').addEventListener('click', function() {
+            const searchValue = document.getElementById('doctorSearch').value.toLowerCase();
+            
+            // Clear previous results
+            const doctorList = document.getElementById('doctorList');
+            doctorList.innerHTML = '';
+
+            // Load doctors from localStorage
+            const loadedDoctors = loadFromLocalStorage();
+
+            // Find matching doctors
+            const matchedDoctors = loadedDoctors.filter(doctor => doctor.name.toLowerCase().includes(searchValue));
+            
+            // Display matching doctors
+            matchedDoctors.forEach(doctor => {
+                const doctorDiv = document.createElement('div');
+                doctorDiv.className = 'doctor-item';
+                doctorDiv.textContent = doctor.name;
+                // Set onclick event to display appointments for the selected doctor
+                doctorDiv.onclick = () => displayAppointments(doctor.appointments);
+                doctorList.appendChild(doctorDiv);
+            });
+
+            if (matchedDoctors.length === 0) {
+                doctorList.innerHTML = 'No doctors found.';
+            }
+        });
+
+        // Save data to localStorage when the page loads
+        window.onload = saveToLocalStorage;
+    </script>
+</body>
+</html>

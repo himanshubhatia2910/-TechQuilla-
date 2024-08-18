@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row; /* Change to row for horizontal layout */
+            gap: 20px; /* Add spacing between boxes */
+        }
+
+        .box {
+            width: 200px;
+            height: 200px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+
+        .box:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box" id="doctorBox">Doctors</div>
+        <div class="box" id="patientBox">Patients</div>
+        <div class="box" id="modifyBox">Modify</div>
+    </div>
+
+    <script>
+        // Redirect to doctors page
+        document.getElementById("doctorBox").addEventListener("click", function() {
+            window.location.href = "doctors.html";
+        });
+
+        // Redirect to patients page
+        document.getElementById("patientBox").addEventListener("click", function() {
+            window.location.href = "patients.html";
+        });
+
+        // Redirect to modify page
+        document.getElementById("modifyBox").addEventListener("click", function() {
+            window.location.href = "modify.html";
+        });
+    </script>
+</body>
+</html>

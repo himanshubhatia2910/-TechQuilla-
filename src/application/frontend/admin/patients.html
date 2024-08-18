@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Records</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .filter-section {
+            margin-bottom: 20px;
+        }
+
+        .filter-section label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .filter-section select, .filter-section input {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        .patient-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .patient-table th, .patient-table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .patient-table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .patient-table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .patient-table tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Patient Records</h2>
+        <div class="filter-section">
+            <label for="genderFilter">Filter by Gender:</label>
+            <select id="genderFilter">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="ageFilter">Filter by Age:</label>
+            <input type="number" id="ageFilter" placeholder="Enter age">
+
+            <label for="searchFilter">Search by Name:</label>
+            <input type="text" id="searchFilter" placeholder="Enter name">
+
+            <button id="applyFilter">Apply Filters</button>
+        </div>
+
+        <table class="patient-table" id="patientTable">
+            <thead>
+                <tr>
+                    <th>Patient Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Contact</th>
+                    <th>Patient ID</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Patient data will be inserted here by JavaScript -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        // Sample patient data
+        const patients = [
+            { name: 'Alice Johnson', age: 30, gender: 'female', contact: '1234567890', id: 'P001' },
+            { name: 'Bob Brown', age: 45, gender: 'male', contact: '0987654321', id: 'P002' },
+            { name: 'Carol White', age: 50, gender: 'female', contact: '1122334455', id: 'P003' },
+            { name: 'David Clark', age: 36, gender: 'male', contact: '2233445566', id: 'P004' },
+            { name: 'Ella Adams', age: 29, gender: 'female', contact: '3344556677', id: 'P005' }
+        ];
+
+        // Function to display patients
+        function displayPatients(patients) {
+            const tableBody = document.getElementById('patientTable').getElementsByTagName('tbody')[0];
+            tableBody.innerHTML = ''; // Clear existing rows
+
+            patients.forEach(patient => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${patient.name}</td>
+                    <td>${patient.age}</td>
+                    <td>${patient.gender}</td>
+                    <td>${patient.contact}</td>
+                    <td>${patient.id}</td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+
+        // Initial display of all patients
+        displayPatients(patients);
+
+        // Function to filter patients based on criteria
+        function applyFilters() {
+            const gender = document.getElementById('genderFilter').value.toLowerCase();
+            const age = parseInt(document.getElementById('ageFilter').value);
+            const searchName = document.getElementById('searchFilter').value.toLowerCase();
+
+            const filteredPatients = patients.filter(patient => {
+                const matchesGender = !gender || patient.gender.toLowerCase() === gender;
+                const matchesAge = isNaN(age) || patient.age === age;
+                const matchesName = !searchName || patient.name.toLowerCase().includes(searchName);
+
+                return matchesGender && matchesAge && matchesName;
+            });
+
+            displayPatients(filteredPatients);
+        }
+
+        // Apply filters when the button is clicked
+        document.getElementById('applyFilter').addEventListener('click', applyFilters);
+    </script>
+</body>
+</html>

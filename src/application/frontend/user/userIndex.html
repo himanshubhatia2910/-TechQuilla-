@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Action Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .box {
+            width: 200px;
+            height: 150px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .box:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .box:active {
+            background-color: #00408d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box" id="viewAppointment">View Appointment</div>
+        <div class="box" id="addPatient">Add Patient</div>
+        <div class="box" id="bookAppointment">Book Appointment</div>
+    </div>
+
+    <script>
+        // Redirect to view appointment page
+        document.getElementById("viewAppointment").addEventListener("click", function() {
+            window.location.href = "view_appointment.html";
+        });
+
+        // Redirect to add patient page
+        document.getElementById("addPatient").addEventListener("click", function() {
+            window.location.href = "patient.html";
+        });
+
+        // Redirect to book appointment page
+        document.getElementById("bookAppointment").addEventListener("click", function() {
+            window.location.href = "book_appointment.html";
+        });
+    </script>
+</body>
+</html>

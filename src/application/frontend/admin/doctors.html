@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Schedule Management</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .doctor-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .doctor-item {
+            padding: 15px;
+            margin: 5px 0;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .doctor-item:hover {
+            background-color: #0056b3;
+        }
+
+        .schedule {
+            margin-top: 20px;
+        }
+
+        .schedule-item {
+            padding: 15px;
+            margin: 5px 0;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            position: relative;
+        }
+
+        .modify-btn {
+            background-color: #ffc107;
+            color: black;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+        }
+
+        .modify-btn:hover {
+            background-color: #e0a800;
+        }
+
+        .edit-form {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .edit-form h2 {
+            margin-top: 0;
+        }
+
+        .edit-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .edit-form input, .edit-form button {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .edit-form button {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .edit-form button:hover {
+            background-color: #218838;
+        }
+
+        .no-schedule {
+            font-style: italic;
+            color: #666;
+        }
+
+        .notification {
+            display: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .notification.success {
+            background-color: #28a745;
+        }
+
+        .notification.error {
+            background-color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Doctor Schedule Management</h1>
+        <ul id="doctorList" class="doctor-list">
+            <!-- Doctor list will be populated here -->
+        </ul>
+        <div id="doctorSchedule" class="schedule">
+            <!-- Doctor schedule will be displayed here -->
+            <p id="noSchedule" class="no-schedule"></p>
+        </div>
+
+        <div id="editForm" class="edit-form">
+            <h2>Edit Appointment</h2>
+            <label for="editDate">Date:</label>
+            <input type="date" id="editDate">
+            <label for="editTime">Time:</label>
+            <input type="time" id="editTime">
+            <label for="editPatients">Patients (comma separated):</label>
+            <input type="text" id="editPatients">
+            <button id="saveEdits">Save Changes</button>
+        </div>
+
+        <div id="notification" class="notification"></div>
+    </div>
+
+    <script>
+        // Sample data
+        const doctors = [
+            { 
+                name: 'Dr. John Smith', 
+                id: 'D001',
+                schedule: [
+                    { date: '2024-08-17', time: '09:00', patients: ['Alice Johnson', 'Bob Brown'] },
+                    { date: '2024-08-18', time: '10:00', patients: ['Carol White'] },
+                    { date: '2024-08-19', time: '11:00', patients: ['David Clark'] }
+                ] 
+            },
+            { 
+                name: 'Dr. Jane Doe', 
+                id: 'D002',
+                schedule: [
+                    { date: '2024-08-17', time: '09:30', patients: ['Ella Adams'] },
+                    { date: '2024-08-18', time: '10:30', patients: ['Frank Harris'] },
+                    { date: '2024-08-19', time: '11:30', patients: ['Grace Lee'] }
+                ] 
+            }
+        ];
+
+        let selectedDoctorIndex = null;
+        let selectedScheduleIndex = null;
+
+        // Function to display doctor list
+        function displayDoctorList() {
+            const doctorList = document.getElementById('doctorList');
+            doctors.forEach((doctor, index) => {
+                const doctorItem = document.createElement('li');
+                doctorItem.className = 'doctor-item';
+                doctorItem.textContent = doctor.name;
+                doctorItem.onclick = () => {
+                    selectedDoctorIndex = index;
+                    displaySchedule(index);
+                };
+                doctorList.appendChild(doctorItem);
+            });
+        }
+
+        // Function to display schedule for selected doctor
+        function displaySchedule(doctorIndex) {
+            const scheduleDiv = document.getElementById('doctorSchedule');
+            const noSchedule = document.getElementById('noSchedule');
+            const schedule = doctors[doctorIndex].schedule;
+            const nextThreeDays = new Date();
+            nextThreeDays.setDate(nextThreeDays.getDate() + 3);
+            const today = new Date().toISOString().split('T')[0];
+
+            // Clear previous schedule
+            scheduleDiv.innerHTML = '<h2>Schedule for the Next 3 Days</h2>';
+
+            const filteredSchedule = schedule.filter(day => new Date(day.date) >= new Date(today) && new Date(day.date) <= nextThreeDays);
+
+            if (filteredSchedule.length > 0) {
+                filteredSchedule.forEach((day, index) => {
+                    scheduleDiv.innerHTML += `
+                        <div class="schedule-item">
+                            <p><strong>Date:</strong> ${day.date}</p>
+                            <p><strong>Time:</strong> ${day.time}</p>
+                            <p><strong>Patients:</strong> ${day.patients.join(', ')}</p>
+                            <button class="modify-btn" onclick="showEditForm(${doctorIndex}, ${index})">Modify</button>
+                        </div>
+                    `;
+                });
+                noSchedule.style.display = 'none';
+            } else {
+                noSchedule.textContent = 'No appointments for the next 3 days.';
+                noSchedule.style.display = 'block';
+            }
+        }
+
+        // Function to show the edit form
+        function showEditForm(doctorIndex, scheduleIndex) {
+            const schedule = doctors[doctorIndex].schedule[scheduleIndex];
+            document.getElementById('editDate').value = schedule.date;
+            document.getElementById('editTime').value = schedule.time;
+            document.getElementById('editPatients').value = schedule.patients.join(', ');
+            document.getElementById('editForm').style.display = 'block';
+            selectedDoctorIndex = doctorIndex;
+            selectedScheduleIndex = scheduleIndex;
+        }
+
+        // Function to save changes to the schedule
+        document.getElementById('saveEdits').addEventListener('click', function() {
+            const dateInput = document.getElementById('editDate').value;
+            const timeInput = document.getElementById('editTime').value;
+            const patientsInput = document.getElementById('editPatients').value.split(',').map(patient => patient.trim());
+
+            if (selectedDoctorIndex === null || selectedScheduleIndex === null || !dateInput || !timeInput) {
+                alert('Please provide all required information.');
+                return;
+            }
+
+            const doctor = doctors[selectedDoctorIndex];
+            doctor.schedule[selectedScheduleIndex] = { date: dateInput, time: timeInput, patients: patientsInput };
+
+            // Hide the edit form and refresh the displayed schedule
+            document.getElementById('editForm').style.display = 'none';
+            displaySchedule(selectedDoctorIndex);
+
+            // Show success notification
+            showNotification('Changes saved successfully!', 'success');
+        });
+
+        // Function to show notification
+        function showNotification(message, type) {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = `notification ${type}`;
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 3000);
+        }
+
+        // Initial display of doctor list
+        displayDoctorList();
+    </script>
+</body>
+</html>

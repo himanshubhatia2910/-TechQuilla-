@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: 20px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .box {
+            width: 250px;
+            height: 150px;
+            background-color: #007bff;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .box:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .box:active {
+            background-color: #00408d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="box" id="addSchedule">Add Schedule</div>
+        <div class="box" id="viewAppointments">View Appointments</div>
+        <div class="box" id="suggestTests">Suggest Medical Tests</div>
+        <div class="box" id="suggestMedicines">Suggest Medicines</div>
+    </div>
+
+    <script>
+        // Redirect to add schedule page
+        document.getElementById("addSchedule").addEventListener("click", function() {
+            window.location.href = "add_schedule.html";
+        });
+
+        // Redirect to view appointments page
+        document.getElementById("viewAppointments").addEventListener("click", function() {
+            window.location.href = "view_appointments.html";
+        });
+
+        // Redirect to suggest medical tests page
+        document.getElementById("suggestTests").addEventListener("click", function() {
+            window.location.href = "suggest_tests.html";
+        });
+
+        // Redirect to suggest medicines page
+        document.getElementById("suggestMedicines").addEventListener("click", function() {
+            window.location.href = "suggest_medicines.html";
+        });
+    </script>
+</body>
+</html>

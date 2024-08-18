@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggest Medicines</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #suggestions {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Suggest Medicines</h2>
+        <form id="medicine-form">
+            <label for="patient-name">Patient Name:</label>
+            <input type="text" id="patient-name" required>
+
+            <label for="patient-age">Patient Age:</label>
+            <input type="number" id="patient-age" required>
+
+            <label for="patient-gender">Patient Gender:</label>
+            <select id="patient-gender" required>
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="symptoms">Medicines</label>
+            <input type="text" id="symptoms" placeholder="e.g., fever, cough" required>
+            
+            <button type="button" id="submit-btn">Submit</button>
+        </form>
+
+        <div id="suggestions">
+            <!-- No suggestions will appear here -->
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', function() {
+            const name = document.getElementById('patient-name').value;
+            const age = document.getElementById('patient-age').value;
+            const gender = document.getElementById('patient-gender').value;
+            const symptoms = document.getElementById('symptoms').value.toLowerCase().split(',').map(symptom => symptom.trim());
+
+            // Remove the suggestion display logic
+            alert(`Form submitted. Patient: ${name}, Age: ${age}, Gender: ${gender}, Symptoms: ${symptoms.join(', ')}`);
+
+            // Optionally, you could submit the form data here
+            // For example, using fetch to send data to a server
+            /*
+            fetch('your-server-endpoint', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ name, age, gender, symptoms })
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Data submitted successfully');
+            })
+            .catch(error => console.error('Error:', error));
+            */
+        });
+    </script>
+</body>
+</html>

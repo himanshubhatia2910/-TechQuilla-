@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="time"] {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>BOOK APPOINTMENT</h2>
+        <form id="appointment-form">
+            <label for="doctor-name">DOCTOR NAME</label>
+            <input type="text" id="doctor-name" placeholder="Enter doctor's name">
+
+            <label for="appointment-date">DATE</label>
+            <input type="date" id="appointment-date">
+
+            <label for="appointment-time">TIME</label>
+            <input type="time" id="appointment-time">
+
+            <button type="button" id="add-btn">ADD</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('add-btn').addEventListener('click', function() {
+            const doctorName = document.getElementById('doctor-name').value;
+            const appointmentDate = document.getElementById('appointment-date').value;
+            const appointmentTime = document.getElementById('appointment-time').value;
+
+            if (doctorName && appointmentDate && appointmentTime) {
+                alert(`Appointment added for Dr. ${doctorName} on ${appointmentDate} at ${appointmentTime}.`);
+            } else {
+                alert('Please fill out all fields.');
+            }
+        });
+    </script>
+</body>
+</html>

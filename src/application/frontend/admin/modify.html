@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cancel Appointments</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .doctor-selection {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        select, button {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .appointments {
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        tr:hover {
+            background-color: #ddd;
+        }
+
+        .cancel-btn {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+
+        .cancel-btn:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Cancel Appointments</h2>
+        <div class="doctor-selection">
+            <label for="doctorSelect">Select Doctor:</label>
+            <select id="doctorSelect">
+                <!-- Options will be populated by JavaScript -->
+            </select>
+            <button id="viewAppointments">View Appointments</button>
+        </div>
+
+        <div class="appointments" id="appointments">
+            <!-- Appointments will be displayed here -->
+        </div>
+    </div>
+
+    <script>
+        // Sample doctor data
+        const doctors = [
+            { name: 'Dr. John Smith', id: 'D001', appointments: [
+                { patientName: 'Alice Johnson', age: 30, time: '2024-08-17 10:00 AM', id: 'A001' },
+                { patientName: 'Bob Brown', age: 45, time: '2024-08-17 02:00 PM', id: 'A002' }
+            ] },
+            { name: 'Dr. Jane Doe', id: 'D002', appointments: [
+                { patientName: 'Carol White', age: 50, time: '2024-08-17 11:00 AM', id: 'A003' },
+                { patientName: 'David Clark', age: 36, time: '2024-08-17 01:00 PM', id: 'A004' }
+            ] }
+        ];
+
+        // Populate doctor selection dropdown
+        const doctorSelect = document.getElementById('doctorSelect');
+        doctors.forEach(doctor => {
+            const option = document.createElement('option');
+            option.value = doctor.id;
+            option.textContent = doctor.name;
+            doctorSelect.appendChild(option);
+        });
+
+        // Function to display appointments
+        function displayAppointments(appointments) {
+            const appointmentsDiv = document.getElementById('appointments');
+            appointmentsDiv.innerHTML = `
+                <h3>Appointments for Today</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Patient Name</th>
+                            <th>Age</th>
+                            <th>Time</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${appointments.map(appt => `
+                            <tr>
+                                <td>${appt.patientName}</td>
+                                <td>${appt.age}</td>
+                                <td>${appt.time}</td>
+                                <td><button class="cancel-btn" onclick="cancelAppointment('${appt.id}')">Cancel</button></td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        // Function to cancel an appointment
+        function cancelAppointment(appointmentId) {
+            // Find and remove the appointment
+            const doctorId = document.getElementById('doctorSelect').value;
+            const doctor = doctors.find(doc => doc.id === doctorId);
+            if (!doctor) return;
+
+            doctor.appointments = doctor.appointments.filter(appt => appt.id !== appointmentId);
+
+            // Refresh the displayed appointments
+            displayAppointments(doctor.appointments);
+        }
+
+        // Handle "View Appointments" button click
+        document.getElementById('viewAppointments').addEventListener('click', function() {
+            const doctorId = document.getElementById('doctorSelect').value;
+            const doctor = doctors.find(doc => doc.id === doctorId);
+
+            if (doctor) {
+                const today = new Date().toISOString().split('T')[0]; // Get today's date
+                const todayAppointments = doctor.appointments.filter(appt => appt.time.startsWith(today));
+                displayAppointments(todayAppointments);
+            } else {
+                alert('Please select a doctor.');
+            }
+        });
+    </script>
+</body>
+</html>
