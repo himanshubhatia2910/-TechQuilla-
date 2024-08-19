@@ -1,14 +1,18 @@
 package application.backend.beans;
 
 import application.backend.enums.Roles;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
 public class Doctor extends Users {
+    @JsonProperty("doctor_id")
     private String doctorId;
+    @JsonProperty("specialization")
     private String specialty;
+    @JsonProperty("contact_info")
     private String contactInfo;
 
     public Doctor() {
@@ -51,11 +55,7 @@ public class Doctor extends Users {
 
     @Override
     public String toString() {
-        return super.toString() + "Doctor{" +
-                "doctorId='" + doctorId + '\'' +
-                ", specialty='" + specialty + '\'' +
-                ", contactInfo='" + contactInfo + '\'' +
-                '}';
+        return "Doctor ID:" + doctorId +"\t\tName:"+getName()+"\t\tSpecialization:"+specialty+"\t\tContact Info:"+contactInfo;
     }
 
     @Override

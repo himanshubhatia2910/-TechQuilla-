@@ -2,6 +2,7 @@ package application.backend.service;
 
 import application.backend.dao.LoginDao;
 import application.backend.dao.LoginDaoImpl;
+import application.backend.exceptions.UserNotFoundException;
 
 import java.sql.SQLException;
 
@@ -12,7 +13,11 @@ public class LoginServiceImpl implements LoginService {
     }
 
     @Override
-    public String getUserRole(String id, String password) throws SQLException {
-        return loginDao.getUserRole(id,password);
+    public String getUserRole(String id, String password) throws SQLException, UserNotFoundException {
+        try{
+            return loginDao.getUserRole(id,password);
+        }catch(UserNotFoundException e){
+            throw new UserNotFoundException();
+        }
     }
 }

@@ -10,7 +10,7 @@ public class Appointments {
     private String appointmentId;
     private String patientId;
     private String doctorId;
-    private Date appointmentDate;
+    private LocalDateTime appointmentDate;
     private AppointmentStatus appointmentStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -25,7 +25,7 @@ public class Appointments {
         updatedAt=null;
     }
 
-    public Appointments(String appointmentId, String patientId, String doctorId, Date appointmentDate, AppointmentStatus appointmentStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Appointments(String appointmentId, String patientId, String doctorId, LocalDateTime appointmentDate, AppointmentStatus appointmentStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.appointmentId = appointmentId;
         this.patientId = patientId;
         this.doctorId = doctorId;
@@ -59,11 +59,11 @@ public class Appointments {
         this.doctorId = doctorId;
     }
 
-    public Date getAppointmentDate() {
+    public LocalDateTime getAppointmentDate() {
         return appointmentDate;
     }
 
-    public void setAppointmentDate(Date appointmentDate) {
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
         this.appointmentDate = appointmentDate;
     }
 
@@ -93,15 +93,7 @@ public class Appointments {
 
     @Override
     public String toString() {
-        return "Appointments{" +
-                "appointmentId='" + appointmentId + '\'' +
-                ", patientId='" + patientId + '\'' +
-                ", doctorId='" + doctorId + '\'' +
-                ", appointmentDate=" + appointmentDate +
-                ", appointmentStatus=" + appointmentStatus +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Appointment ID:" + appointmentId + "\t\tPatient ID:" + patientId + "\t\tDoctor ID:" + doctorId + "\t\tAppointment Date:" + appointmentDate + "\t\tStatus:" + appointmentStatus;
     }
 
 }
