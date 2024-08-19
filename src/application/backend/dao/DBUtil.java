@@ -15,17 +15,12 @@ public class DBUtil {
     private static final String PASSWORD="Hello2301";
 
     public static Connection getConnection() {
-        try{
-            if(con==null) {
-                DriverManager.registerDriver(new com.mysql.cj.jdbc.Driver());
-                con = DriverManager.getConnection(URL, USER, PASSWORD);
-                System.out.println("Connection Done");
-            }
-        }catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return null;
+            try {
+                return DriverManager.getConnection(URL, USER, PASSWORD);
+            } catch (SQLException e) {
+                System.out.println(e.getMessage());
+                return null;
         }
-        return con;
     }
 
     public static void CloseConnection() {

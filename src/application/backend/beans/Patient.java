@@ -1,12 +1,13 @@
 package application.backend.beans;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Patient {
     private String patientId;
     private String name;
-    private Date birthDate;
+    private LocalDate birthDate;
     private String contactInfo;
     private String address;
     private LocalDateTime createdAt;
@@ -22,7 +23,7 @@ public class Patient {
         updatedAt=null;
     }
 
-    public Patient(String patientId, String name, Date birthDate, String contactInfo, String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Patient(String patientId, String name, LocalDate birthDate, String contactInfo, String address, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.patientId = patientId;
         this.name = name;
         this.birthDate = birthDate;
@@ -48,11 +49,11 @@ public class Patient {
         this.name = name;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -90,14 +91,6 @@ public class Patient {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "patientId='" + patientId + '\'' +
-                ", name='" + name + '\'' +
-                ", birthDate=" + birthDate +
-                ", contactNumber='" + contactInfo + '\'' +
-                ", address='" + address + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Patient ID:" + patientId +"\t\tName:"+name+"\t\tBirth Date:"+birthDate+"\t\tContact Info:"+contactInfo+"\t\tAddress:"+address;
     }
 }

@@ -1,6 +1,7 @@
 package application.backend.beans;
 
 import application.backend.enums.Roles;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -8,14 +9,20 @@ import java.util.Date;
 //Collection of all hospital entities like Doctor,User(Staff),Admin
 public class Users {
 
+    @JsonProperty("user_id")
     private String userId;
+    @JsonProperty("name")
     private String name;
+    @JsonProperty("password")
     private String password;
 
     //Enum for Role contain DOCTOR,ADMIN,USER(Staff).
+    @JsonProperty("role")
     private Roles role;
 
+    @JsonProperty("created_at")
     private LocalDateTime createdAt;
+    @JsonProperty("updated_at")
     private LocalDateTime updatedAt;
 
     public Users() {
