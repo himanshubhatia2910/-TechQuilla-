@@ -14,13 +14,18 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Main {
+    public static void printPattern(){
+        System.out.println("-----------------------------------------------------------------------------");
+    }
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int choice=0;
+        System.out.println("Please Login into the System:");
         System.out.println("Enter Unique ID:");
         String id = sc.next();
         System.out.println("Enter Password:");
         String password = sc.next();
+        printPattern();
         LoginService loginService = new LoginServiceImpl();
         AdminService adminService = new AdminServiceImpl();
 
@@ -32,7 +37,7 @@ public class Main {
                     System.out.println("Hello Admin");
                     int adminChoice=0;
                     do{
-                        System.out.println("--------------------------------------------");
+                        printPattern();
                         System.out.println("1. Import new Doctors List(Json).");
                         System.out.println("2. Show All Doctors List.");
                         System.out.println("3. Next 3 Day Appointments of Doctor");
@@ -40,7 +45,7 @@ public class Main {
                         System.out.println("5. Cancel Current Day Appointment of Doctor");
                         System.out.println("6. Show All Patients");
                         System.out.println("7. Exit");
-                        System.out.println("--------------------------------------------");
+                       printPattern();
                         System.out.println("Choose a operation to Perform:");
                         adminChoice=sc.nextInt();
                         switch (adminChoice){
@@ -64,7 +69,7 @@ public class Main {
                             case 3:
                                 System.out.println("Enter Doctor ID to see Appointments:");
                                 String doctorId = sc.next();
-                                System.out.println("------------------------------------");
+                                printPattern();
                                 System.out.println("Showing Next 3 Day Appointments of Doctor:");
                                 List<Appointments> appointments = adminService.getNextThreeDaysAppointments(doctorId);
                                 if (appointments.isEmpty()) {
@@ -79,7 +84,7 @@ public class Main {
                                 try {
                                     System.out.println("Enter Doctor ID:");
                                     String docId = sc.next();
-                                    System.out.println("--------------------------------------");
+                                    printPattern();
                                     List<Appointments> todayAppointments = adminService.getCurrentDayAppointments(docId);
                                     System.out.println("Today's Appointments for Doctor ID " + docId + ":");
                                     if(todayAppointments.isEmpty()) {
@@ -96,7 +101,7 @@ public class Main {
                                 try {
                                     System.out.println("Enter Doctor ID:");
                                     String docId = sc.next();
-                                    System.out.println("--------------------------------------");
+                                    printPattern();
                                     List<Appointments> todayAppointments = adminService.getCurrentDayAppointments(docId);
                                     System.out.println("Today's Appointments for Doctor ID " + docId + ":");
                                     if(todayAppointments.isEmpty()) {
