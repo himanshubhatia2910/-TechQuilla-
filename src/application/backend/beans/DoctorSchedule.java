@@ -2,15 +2,17 @@ package application.backend.beans;
 
 import application.backend.enums.ScheduleStatus;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Date;
 
 public class DoctorSchedule {
     private String scheduleId;
     private String doctorId;
-    private Date date;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
     private ScheduleStatus scheduleStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
@@ -25,7 +27,7 @@ public class DoctorSchedule {
         updatedAt=null;
     }
 
-    public DoctorSchedule(String scheduleId, String doctorId, Date date, LocalDateTime startTime, LocalDateTime endTime, ScheduleStatus scheduleStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public DoctorSchedule(String scheduleId, String doctorId, LocalDate date, LocalTime startTime, LocalTime endTime, ScheduleStatus scheduleStatus, LocalDateTime createdAt, LocalDateTime updatedAt) {
         this.scheduleId = scheduleId;
         this.doctorId = doctorId;
         this.date = date;
@@ -52,27 +54,27 @@ public class DoctorSchedule {
         this.doctorId = doctorId;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalTime startTime) {
         this.startTime = startTime;
     }
 
-    public LocalDateTime getEndTime() {
+    public LocalTime getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(LocalDateTime endTime) {
+    public void setEndTime(LocalTime endTime) {
         this.endTime = endTime;
     }
 

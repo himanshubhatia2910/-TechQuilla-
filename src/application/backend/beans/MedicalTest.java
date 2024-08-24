@@ -68,12 +68,8 @@ public class MedicalTest {
 
     @Override
     public String toString() {
-        return "MedicalTest{" +
-                "testId='" + testId + '\'' +
-                ", testName='" + testName + '\'' +
-                ", testDescription='" + testDescription + '\'' +
-                ", createdAt=" + createdAt +
-                ", updatedAt=" + updatedAt +
-                '}';
+        return "Test Id:'" + testId+"\t"+
+                "Test Name:'" + testName + "\t"+
+                "Test Description:'" + testDescription;
     }
 }
