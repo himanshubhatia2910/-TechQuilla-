@@ -2,13 +2,18 @@ package application.backend.test;
 
 import application.backend.beans.Appointments;
 import application.backend.beans.Doctor;
+import application.backend.beans.DoctorSchedule;
 import application.backend.beans.Patient;
+import application.backend.enums.ScheduleStatus;
 import application.backend.exceptions.InvalidPatientIdException;
 import application.backend.exceptions.SlotAlreadyBookedException;
 import application.backend.exceptions.UserNotFoundException;
 import application.backend.service.*;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -27,6 +32,7 @@ public class Main {
         LoginService loginService = new LoginServiceImpl();
         AdminService adminService = new AdminServiceImpl();
         StaffService staffService = new StaffServiceImpl();
+        DoctorService doctorService = new DoctorServiceImpl();
         String role = null;
         try {
             role = loginService.getUserRole(id, password);
@@ -262,6 +268,111 @@ public class Main {
                     break;
                 case "DOCTOR":
                     System.out.println("Hello Doctor");
+                    int doctorChoice=0;
+                    do{
+                        System.out.println("1. Add Schedule for next 3 Days");
+                        System.out.println("2. View Current Day Appointments");
+                        System.out.println("3. View Next 3 Days Appointment");
+                        System.out.println("4. Cancel a existing appointment");
+                        System.out.println("5. Suggest Medical Test for a Patient");
+                        System.out.println("6. Suggest Medicines for a patient");
+                        System.out.println("7. Exit");
+                        System.out.println("Please select a operation to perform:");
+                        doctorChoice=sc.nextInt();
+                        switch(doctorChoice){
+                            case 1:
+                                List<DoctorSchedule> schedules = new ArrayList<>();
+                                for (int i = 1; i <= 3; i++) {
+                                    LocalDate date = LocalDate.now().plusDays(i);
+
+                                    System.out.println("Enter start time (HH:mm:ss) for "+date+": ");
+                                    LocalTime startTime = LocalTime.parse(sc.next());
+                                    System.out.println("Enter end time (HH:mm:ss): ");
+                                    LocalTime endTime = LocalTime.parse(sc.next());
+
+                                    DoctorSchedule schedule = new DoctorSchedule(
+                                            null, id, date, startTime, endTime, ScheduleStatus.AVAILABLE, null, null);
+                                    schedules.add(schedule);
+                                }
+
+                                try {
+                                    int count = doctorService.addScheduleForNextThreeDays(id, schedules);
+                                    System.out.println("Successfully added " + count + " schedules for the next 3 days.");
+                                } catch (SQLException e) {
+                                    System.out.println("Error adding schedules: " + e.getMessage());
+                                }
+                                break;
+                            case 2:
+                                printPattern();
+                                try {
+                                    List<Appointments> todayAppointments = staffService.getCurrentDayAppointments(id);
+                                    System.out.println("Today's Appointments:");
+                                    if (todayAppointments.isEmpty()) {
+                                        System.out.println("No appointments found for today.");
+                                    } else {
+                                        for (Appointments appointment : todayAppointments) {
+                                            System.out.println(appointment);
+                                        }
+                                    }
+                                } catch (SQLException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            case 3:
+                                printPattern();
+                                try {
+                                    List<Appointments> next3DaysAppointments = staffService.getNextThreeDaysAppointments(id);
+                                    System.out.println("Next 3 Days' Appointments:");
+                                    if (next3DaysAppointments.isEmpty()) {
+                                        System.out.println("No appointments found for the next 3 days.");
+                                    } else {
+                                        for (Appointments appointment : next3DaysAppointments) {
+                                            System.out.println(appointment);
+                                        }
+                                    }
+                                } catch (SQLException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            case 4:
+                                try{
+                                    printPattern();
+                                    List<Appointments> todayAppointments = adminService.getCurrentDayAppointments(id);
+                                    System.out.println("Today's Appointments for Doctor ID " + id + ":");
+                                    if(todayAppointments.isEmpty()) {
+                                        System.out.println("No appointments found for today.");
+                                    }
+                                    for (Appointments appointment : todayAppointments) {
+                                        System.out.println(appointment);
+                                    }
+                                    System.out.println("Enter Appointment ID:");
+                                    String appId = sc.next();
+                                    Appointments cancelledAppointment = adminService.cancelCurrentDayAppointment(id, appId);
+                                    if (cancelledAppointment != null) {
+                                        System.out.println("Appointment successfully cancelled:");
+                                        System.out.println(cancelledAppointment);
+                                    } else {
+                                        System.out.println("No appointment found to cancel.");
+                                    }
+                                } catch (SQLException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                                break;
+                            case 5:
+                                doctorService.suggestMedicalTest();
+
+                                break;
+                            case 6:
+                                //doctorService.suggestPrescriptions();
+                                break;
+                            case 7: System.out.println("Thank you for using the Platform. Have a good day.");
+                                System.exit(0);
+                                break;
+                            default:
+                                System.out.println("Invalid Choice");
+                                break;
+                        }
+                    }while (doctorChoice!=7);
                     break;
                 default:
                     System.out.println("User not Found in Records.");
