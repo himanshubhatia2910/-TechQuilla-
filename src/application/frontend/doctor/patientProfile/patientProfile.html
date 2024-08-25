@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patient Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #235097, #809098);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 800px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      .navbar {
+        width: 100%;
+        background-color: #12224c;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa726;
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-title {
+        font-size: 20px;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .navbar-links {
+        display: flex;
+        align-items: center;
+      }
+
+      .navbar-links a {
+        color: white;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .navbar-links a:hover,
+      .navbar-links a:focus {
+        background-color: #4d88ff;
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:hover,
+      .navbar-title:focus {
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .profile-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        margin-top: 20px;
+      }
+
+      .profile-picture {
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        margin-bottom: 20px;
+      }
+
+      .profile-picture img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .profile-details {
+        width: 100%;
+        background-color: #1a2d5e;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        margin-bottom: 20px;
+      }
+
+      .profile-details h2 {
+        color: #ffa726;
+        margin-bottom: 20px;
+      }
+
+      .detail-item {
+        margin-bottom: 15px;
+        font-size: 18px;
+        position: relative;
+      }
+
+      .detail-item span {
+        font-weight: bold;
+        margin-right: 10px;
+      }
+
+      .download-btn,
+      .proceed-btn {
+        background-color: #4d88ff;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-top: 20px;
+        text-align: center;
+        width: 100%;
+      }
+
+      .download-btn:hover,
+      .proceed-btn:hover {
+        background-color: #0033cc;
+      }
+
+      .proceed-btn-container {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar">
+        <span class="navbar-title">Patient Profile</span>
+        <div class="navbar-links">
+          <a href="../doctorIndex.html">Doctor Dashboard</a>
+        </div>
+      </div>
+
+      <div class="profile-container">
+        <div class="profile-picture">
+          <img src="sample-profile.jpg" alt="Patient Profile Picture" />
+        </div>
+        <div class="profile-details">
+          <h2>Jane Smith</h2>
+          <div class="detail-item">
+            <span>ID:</span><span>P00001</span>
+          </div>
+          <div class="detail-item">
+            <span>Age:</span><span>35</span>
+          </div>
+          <div class="detail-item">
+            <span>Date of Registration:</span><span>01-Feb-2020</span>
+          </div>
+          <div class="detail-item">
+            <span>Address:</span><span>456 Elm Street, City</span>
+          </div>
+          <div class="detail-item">
+            <span>Phone Number:</span><span>+91 9876543210</span>
+          </div>
+          <a href="patient-history.pdf" class="download-btn" download>Download History</a>
+        </div>
+      </div>
+
+      <div class="proceed-btn-container">
+        <button class="proceed-btn" onclick="window.location.href='../appointment/currentAppointment.html'">
+          Proceed Further
+        </button>
+      </div>
+    </div>
+  </body>
+</html>

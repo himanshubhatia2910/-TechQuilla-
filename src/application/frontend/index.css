@@ -1,0 +1,143 @@
+body {
+    background: linear-gradient(135deg, #235097, #809098); /* Brighter, more distinct gradient */
+    font-family: 'Arial', sans-serif;
+    height: 100vh;
+    margin: 0;
+}
+
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    /* background-color: #f8f9fa; */
+    padding: 20px;
+}
+.login-box {
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 800px;
+}
+.login-box h2 {
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #343a40;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+.login-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 12px 0 0 12px;
+    object-fit: cover;
+    width: 100%;
+}
+.form-container {
+    flex: 1;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.image-container {
+    flex: 1;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #007bff; */
+    /* border-radius: 12px 0 0 12px; */
+}
+.footer {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+    color: #aaaaaa;
+}
+.btn {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Responsive Page */
+@media (max-width: 992px) {
+    .login-box {
+        max-width: 700px;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-box {
+        flex-direction: column;
+        padding: 20px;
+    }
+    .login-image {
+        border-radius: 12px 12px 0 0;
+    }
+    .form-container {
+        padding: 20px 10px;
+    }
+    .image-container {
+        padding: 20px 10px;
+        border-radius: 12px 12px 0 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .login-box {
+        padding: 15px;
+    }
+    .form-container,
+    .image-container {
+        padding: 15px;
+    }
+    .login-box h2 {
+        font-size: 24px;
+    }
+    .btn {
+        font-size: 16px;
+    }
+}
+
+/* Additional styles for better look */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #e9ecef;
+}
+
+.form-group label {
+    font-weight: bold;
+    color: #343a40;
+}
+
+.alert-message {
+    color: red;
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.image-container img {
+    width: 100%;
+    height: auto;
+    border-radius: 12px 0 0 12px;
+    object-fit: cover;
+}
+
+/* index.css */
+.btn:hover {
+    background-color: #02254a; /* Darker blue */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.login-box:hover {
+    box-shadow: 0 24px 24px rgba(0, 0, 0, 0.3); /* Enhanced shadow */
+    transition: box-shadow 0.3s ease;
+}

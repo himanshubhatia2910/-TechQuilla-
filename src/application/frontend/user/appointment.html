@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Appointment</title>
+  
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+  <style>
+    /* Consistent styles with doctors list page */
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #235097, #809098);
+      color: white;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    /* Navbar Styling */
+    .navbar {
+      width: 100%;
+      background-color: #12224c;
+      padding: 15px 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s ease;
+      font-size: 18px;
+      font-weight: bold;
+      color: #ffa726;
+      margin: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .navbar-title {
+      font-size: 20px;
+      transition: color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      color: #ffa726;
+      text-decoration: none;
+    }
+
+    .navbar-title:hover,
+    .navbar-title:focus {
+      color: #f0f7ff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+    }
+
+    #nav-link {
+      color: rgb(109, 30, 30);
+      text-decoration: none;
+      padding: 10px 20px;
+      margin: 0 10px;
+      border-radius: 5px;
+      font-size: 18px;
+      font-weight: 500;
+      transition: background-color 0.3s ease, color 0.3s ease,
+        box-shadow 0.3s ease, transform 0.3s ease;
+    }
+
+    #nav-link:hover,
+    #nav-link:focus {
+      background-color: #4d88ff;
+      color: #f0f7ff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transform: scale(1.05);
+    }
+
+    /* Form Styling */
+    .form-container {
+      background-color: #1a2d5e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      margin: 10px;
+    }
+
+    .form-group label {
+      color: #ffa726;
+    }
+
+    .form-control, .form-select {
+      background-color: #294074;
+      color: white;
+      border: none;
+    }
+
+    .form-control::placeholder {
+      color: #f0f7ff;
+    }
+
+    .submit-btn {
+      background-color: #ffa726;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .submit-btn:hover {
+      background-color: #ff7043;
+      transform: scale(1.05);
+    }
+
+    /* Confirmation Modal Styling */
+    .confirmation-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .confirmation-modal .modal-content {
+      background-color: #294074;
+      padding: 20px;
+      border-radius: 8px;
+      text-align: center;
+    }
+
+    .confirmation-modal button {
+      margin: 10px;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .confirmation-modal .confirm-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .confirmation-modal .cancel-btn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    /* Appointment Details Styling */
+    .appointment-details {
+      background-color: #1a2d5e;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      width: 100%;
+      margin: 10px;
+      display: none;
+    }
+
+    .back-btn {
+      background-color: #ffa726;
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 8px 12px;
+      border-radius: 5px;
+      border: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background-color: #ff7043;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .navbar-title {
+        font-size: 18px;
+      }
+
+      .navbar-links {
+        flex-direction: column;
+      }
+
+      .form-container, .appointment-details {
+        padding: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Navbar -->
+    <div class="navbar d-flex justify-content-between align-items-center">
+      <a href="staffIndex.html" class="navbar-title">Staff Dashboard</a>
+      <div class="navbar-links">
+        <a href="doctors.html" class="text-white mx-2" id="nav-link">Doctor</a>
+        <a href="patients.html" class="text-white mx-2" id="nav-link">Patient</a>
+        <a href="appointments.html" class="text-white mx-2" id="nav-link">Appointments</a>
+      </div>
+    </div>
+
+    <!-- Appointment Form -->
+    <div class="form-container">
+      <form id="appointment-form">
+        <div class="form-group">
+          <label for="patient-id">Patient ID</label>
+          <input type="text" class="form-control" id="patient-id" value="P00001" readonly />
+        </div>
+        <div class="form-group">
+          <label for="doctor-id">Doctor ID</label>
+          <input type="text" class="form-control" id="doctor-id" value="D00001" readonly />
+        </div>
+        <div class="form-group">
+          <label for="doctor-name">Doctor Name</label>
+          <input type="text" class="form-control" id="doctor-name" value="Dr. John Doe" readonly />
+        </div>
+        <div class="form-group">
+          <label for="appointment-slot">Select Appointment Slot</label>
+          <select class="form-control" id="appointment-slot">
+            <!-- Slots will be populated via JavaScript -->
+          </select>
+        </div>
+        <button type="submit" class="submit-btn">Schedule an Appointment</button>
+      </form>
+    </div>
+
+    <!-- Confirmation Modal -->
+    <div class="confirmation-modal" id="confirmation-modal">
+      <div class="modal-content">
+        <p>Are you sure you want to schedule this appointment?</p>
+        <button class="confirm-btn">Yes</button>
+        <button class="cancel-btn">No</button>
+      </div>
+    </div>
+
+    <!-- Appointment Details -->
+    <div class="appointment-details" id="appointment-details">
+      <h3>Appointment Scheduled Successfully!</h3>
+      <p><strong>Patient ID:</strong> <span id="detail-patient-id"></span></p>
+      <p><strong>Doctor ID:</strong> <span id="detail-doctor-id"></span></p>
+      <p><strong>Doctor Name:</strong> <span id="detail-doctor-name"></span></p>
+      <p><strong>Appointment Slot:</strong> <span id="detail-slot"></span></p>
+      <button class="back-btn" id="back-btn">Schedule Another Appointment</button>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  
+  <!-- JavaScript for Appointment Scheduling -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const appointmentForm = document.getElementById('appointment-form');
+      const confirmationModal = document.getElementById('confirmation-modal');
+      const confirmBtn = confirmationModal.querySelector('.confirm-btn');
+      const cancelBtn = confirmationModal.querySelector('.cancel-btn');
+      const appointmentDetails = document.getElementById('appointment-details');
+      const backBtn = document.getElementById('back-btn');
+
+      // Populate appointment slots from 9am to 9pm in 30-minute intervals
+      const appointmentSlotSelect = document.getElementById('appointment-slot');
+      const startTime = 9 * 60; // 9:00 AM in minutes
+      const endTime = 21 * 60; // 9:00 PM in minutes
+
+      for (let time = startTime; time < endTime; time += 30) {
+        const hours = Math.floor(time / 60);
+        const minutes = time % 60;
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const displayHours = hours % 12 === 0 ? 12 : hours % 12;
+        const displayMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const timeLabel = `${displayHours}:${displayMinutes} ${ampm}`;
+        const option = document.createElement('option');
+        option.value = timeLabel;
+        option.textContent = timeLabel;
+        appointmentSlotSelect.appendChild(option);
+      }
+
+      // Handle form submission
+      appointmentForm.addEventListener('submit', function (e) {
+        e.preventDefault(); // Prevent default form submission
+        // Show custom confirmation modal
+        confirmationModal.style.display = 'flex';
+      });
+
+      // Handle confirmation
+      confirmBtn.addEventListener('click', function () {
+        // Hide the modal
+        confirmationModal.style.display = 'none';
+        // Hide the form
+        document.querySelector('.form-container').style.display = 'none';
+        // Populate and show appointment details
+        document.getElementById('detail-patient-id').textContent = document.getElementById('patient-id').value;
+        document.getElementById('detail-doctor-id').textContent = document.getElementById('doctor-id').value;
+        document.getElementById('detail-doctor-name').textContent = document.getElementById('doctor-name').value;
+        document.getElementById('detail-slot').textContent = document.getElementById('appointment-slot').value;
+        appointmentDetails.style.display = 'block';
+      });
+
+      // Handle cancellation
+      cancelBtn.addEventListener('click', function () {
+        // Hide the modal
+        confirmationModal.style.display = 'none';
+      });
+
+      // Handle scheduling another appointment
+      backBtn.addEventListener('click', function () {
+        // Reset the form
+        appointmentForm.reset();
+        // Show the form again
+        document.querySelector('.form-container').style.display = 'block';
+        // Hide the appointment details
+        appointmentDetails.style.display = 'none';
+      });
+    });
+  </script>
+</body>
+</html>

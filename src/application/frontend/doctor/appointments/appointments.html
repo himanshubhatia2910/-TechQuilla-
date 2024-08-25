@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor's Appointments</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #235097, #809098);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            width: 100%;
+            background-color: #12224c;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+            font-size: 18px;
+            font-weight: bold;
+            color: #ffa726;
+            margin: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar-title {
+            font-size: 20px;
+            transition: color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .navbar-links {
+            display: flex;
+            align-items: center;
+        }
+
+        #nav-link {
+            color: rgb(109, 30, 30);
+            text-decoration: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: 500;
+            transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+        }
+
+        #nav-link:hover,
+        #nav-link:focus {
+            background-color: #4d88ff;
+            color: #f0f7ff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .navbar-title:hover,
+        .navbar-title:focus {
+            color: #f0f7ff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transform: scale(1.05);
+        }
+
+        .navbar-title:active {
+            background-color: #357ae8;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .header h2 {
+            color: #ffa726;
+            font-size: 24px;
+        }
+
+        .search-filter-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 100%;
+        }
+
+        .search-input {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+            margin-right: 10px;
+        }
+
+        .filter-select {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            width: 200px;
+        }
+
+        .table-container {
+            background-color: #1a2d5e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            margin: 10px;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+
+        table th,
+        table td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        table th {
+            background-color: #294074;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #12224c;
+        }
+
+        table tr:hover {
+            background-color: #3b5998;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .reschedule-btn {
+            padding: 8px 12px;
+            border-radius: 5px;
+            background-color: #ffa726;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .reschedule-btn:hover {
+            background-color: #ff7043;
+            transform: scale(1.05);
+            text-decoration: none;
+            color: antiquewhite;
+        }
+
+        @media (max-width: 768px) {
+            .header h2 {
+                font-size: 20px;
+            }
+
+            .search-filter-container {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .search-input,
+            .filter-select {
+                width: 100%;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="navbar d-flex justify-content-between align-items-center">
+            <span class="navbar-title">My Appointments</span>
+            <div class="navbar-links">
+                <a href="../doctorIndex.html" class="text-white mx-2" id="nav-link">Doctor Dashboard</a>
+                <a href="../schedule/schedule.html" class="text-white mx-2" id="nav-link">Update Schedule</a>
+            </div>
+        </div>
+
+        <div class="header">
+            <div class="search-filter-container">
+                <input type="text" class="search-input" placeholder="Search by Patient Id or Name">
+                <select class="filter-select">
+                    <option value="">Filter by Time Slot</option>
+                    <option value="9am">9:00 AM</option>
+                    <option value="10am">10:00 AM</option>
+                    <option value="11am">11:00 AM</option>
+                    <option value="12pm">12:00 PM</option>
+                    <option value="1pm">1:00 PM</option>
+                    <option value="2pm">2:00 PM</option>
+                    <option value="3pm">3:00 PM</option>
+                    <option value="4pm">4:00 PM</option>
+                    <option value="5pm">5:00 PM</option>
+                    <option value="6pm">6:00 PM</option>
+                    <option value="7pm">7:00 PM</option>
+                    <option value="8pm">8:00 PM</option>
+                    <option value="9pm">9:00 PM</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Patient Age</th>
+                        <th>Patient Id</th>
+                        <th>Time Slot</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Dynamic rows will be added here -->
+                    <tr>
+                        <td>John Doe</td>
+                        <td>45</td>
+                        <td>P00001</td>
+                        <td>10:00 AM</td>
+                        <td>
+                            <button class="reschedule-btn" onclick="alert('Staff is requested to reschedule the appointment.')">Reschedule</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Jane Smith</td>
+                        <td>30</td>
+                        <td>P00002</td>
+                        <td>11:30 AM</td>
+                        <td>
+                            <button class="reschedule-btn" onclick="alert('Staff is requested to reschedule the appointment.')">Reschedule</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Emily Johnson</td>
+                        <td>28</td>
+                        <td>P00003</td>
+                        <td>2:00 PM</td>
+                        <td>
+                            <button class="reschedule-btn" onclick="alert('Staff is requested to reschedule the appointment.')">Reschedule</button>
+                        </td>
+                    </tr>
+                    <!-- Add more rows as needed -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

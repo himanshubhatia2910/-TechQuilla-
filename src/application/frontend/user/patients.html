@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Patients</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #235097, #809098);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        width: 100%;
+        background-color: #12224c;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa726;
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-title {
+        font-size: 20px;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .navbar-links {
+        display: flex;
+        align-items: center;
+      }
+
+      #nav-link {
+        color: #ffffff;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      #nav-link:hover,
+      #nav-link:focus {
+        background-color: #4d88ff;
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:hover,
+      .navbar-title:focus {
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:active {
+        background-color: #357ae8;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .header h2 {
+        color: #ffa726;
+        font-size: 24px;
+      }
+
+      .search-filter-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+      }
+
+      .search-input {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+        margin-right: 10px;
+      }
+
+      .filter-select {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+      }
+
+      .table-container {
+        background-color: #1a2d5e;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        margin: 10px;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+      }
+
+      table th,
+      table td {
+        padding: 12px 15px;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #294074;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #12224c;
+      }
+
+      table tr:hover {
+        background-color: #3b5998; /* Slightly lighter shade of blue on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .schedule-btn {
+        padding: 8px 12px;
+        border-radius: 5px;
+        background-color: #ffa726;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .schedule-btn:hover {
+        background-color: #ff7043;
+        transform: scale(1.05);
+        text-decoration: none;
+        color: antiquewhite;
+      }
+
+      @media (max-width: 768px) {
+        .header h2 {
+          font-size: 20px;
+        }
+
+        .search-filter-container {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .search-input,
+        .filter-select {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="navbar d-flex justify-content-between align-items-center">
+        <span class="navbar-title">Staff Dashboard</span>
+        <div class="navbar-links">
+          <a href="doctors.html" class="text-white mx-2" id="nav-link">Doctor</a>
+          <a href="patients.html" class="text-white mx-2" id="nav-link">Patient</a>
+          <a href="appointments.html" class="text-white mx-2" id="nav-link">Appointments</a>
+        </div>
+      </div>
+
+      <div class="header">
+        <div class="search-filter-container">
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search by Id or Name"
+          />
+          <select class="filter-select">
+            <option value="">Filter by Age</option>
+            <option value="0">0+</option>
+            <option value="10">10+</option>
+            <option value="20">20+</</option>
+            <option value="30">30+</option>
+            <option value="40">40+</option>
+            <option value="50">50+</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Patient Id</th>
+              <th>Patient Name</th>
+              <th>Age</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamic rows will be added here -->
+            <tr>
+              <td>P00001</td>
+              <td>John Doe</td>
+              <td>45</td>
+              <td>
+                <a href="staffIndex.html" class="schedule-btn">Schedule an Appointment</a>
+              </td>
+            </tr>
+            <tr>
+              <td>P00002</td>
+              <td>Jane Smith</td>
+              <td>30</td>
+              <td>
+                <a href="staffIndex.html" class="schedule-btn">Schedule an Appointment</a>
+              </td>
+            </tr>
+            <tr>
+              <td>P00003</td>
+              <td>Emily Davis</td>
+              <td>25</td>
+              <td>
+                <a href="staffIndex.html" class="schedule-btn">Schedule an Appointment</a>
+              </td>
+            </tr>
+            <!-- Add more rows as needed -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for Search and Filter -->
+    <script>
+      const searchInput = document.querySelector(".search-input");
+      const filterSelect = document.querySelector(".filter-select");
+      const tableRows = document.querySelectorAll("table tbody tr");
+
+      searchInput.addEventListener("input", () => {
+        const query = searchInput.value.toLowerCase();
+        tableRows.forEach(row => {
+          const id = row.cells[0].textContent.toLowerCase();
+          const name = row.cells[1].textContent.toLowerCase();
+          if (id.includes(query) || name.includes(query)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+
+      filterSelect.addEventListener("change", () => {
+        const filterValue = parseInt(filterSelect.value);
+        tableRows.forEach(row => {
+          const age = parseInt(row.cells[2].textContent);
+          if (isNaN(filterValue) || age >= filterValue) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
