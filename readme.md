@@ -1,7 +1,7 @@
 ## TechQuilla
 ## Hospital Management System.
 
-### Steps to run the project:
+### Steps to run the project Backend:
 
 - Clone the repository.
 - Open the project in Intellij Idea.
@@ -16,3 +16,9 @@
   - User(Staff) Password: User@1234
 - Now you can access the Hospital Management System.
 - The Database is hosted on AWS. SO can be accessed anywhere.
+
+## Steps to run the project Frontend:
+
+- Open the frontend package.
+- Run the index.html file.
+- Use User ID and Password same as backend.
