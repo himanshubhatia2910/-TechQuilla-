@@ -1,82 +1,448 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Admin Dashboard</title>
-    
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+      /* Custom scrollbar styling for the list */
+      .list::-webkit-scrollbar {
+        width: 8px;
+      }
 
-        .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: row; /* Change to row for horizontal layout */
-            gap: 20px; /* Add spacing between boxes */
-        }
+      .list::-webkit-scrollbar-track {
+        background: #f0f7ff; /* Lighter background for the scrollbar track */
+        border-radius: 10px;
+      }
 
-        .box {
-            width: 200px;
-            height: 200px;
-            background-color: #007bff;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            cursor: pointer;
-            text-align: center;
-            transition: background-color 0.3s;
-        }
+      .list::-webkit-scrollbar-thumb {
+        background-color: #80aaff; /* Light blue color for the scrollbar thumb */
+        border-radius: 10px;
+        border: 2px solid #f0f7ff; /* Padding around the thumb for a rounded appearance */
+      }
 
-        .box:hover {
-            background-color: #0056b3;
-        }
+      .list::-webkit-scrollbar-thumb:hover {
+        background-color: #4d88ff; /* Darker blue on hover */
+      }
 
-        h1 {
-            color: #333;
-            margin-bottom: 20px;
-            text-align: center;
-            width: 100%;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #235097, #809098);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        width: 100%;
+
+        background-color: #12224c;
+
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa726;
+
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-title {
+        font-size: 20px;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .navbar-links {
+        display: flex;
+        align-items: center;
+      }
+
+      #nav-link {
+        color: rgb(109, 30, 30);
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      #nav-link:hover,
+      #nav-link:focus {
+        background-color: #4d88ff;
+        color: #f0f7ff; /* Change text color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:hover,
+      .navbar-title:focus {
+        /* background-color: #4d88ff; */
+        color: #f0f7ff; /* Change text color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:active {
+        background-color: #357ae8;
+      }
+
+      .welcome-message {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      h2 {
+        color: #ffa726;
+        font-size: 120%;
+      }
+
+      .content-container {
+        display: flex;
+        justify-content: space-around;
+        align-items: flex-start;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .list-container {
+        background-color: #1a2d5e;
+        background-color: #12224c;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 30%;
+        margin: 10px;
+        flex: 1 1 300px;
+      }
+
+      .list-container h2 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+
+      .list li {
+        background-color: #294074;
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+
+      .list li:hover {
+        background-color: #3b5998; /* Slightly lighter shade of blue on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .view-more {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .view-more a {
+        color: #ffa726;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      a:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      .chart-container {
+        background-color: #40405a;
+        background-color: #12224c;
+
+        /* background-color:#0b1327; */
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 30%;
+        margin: 10px;
+        flex: 1 1 300px;
+        text-align: center;
+      }
+
+      canvas {
+        background-color: #294074;
+        border-radius: 4px;
+        padding: 15px;
+      }
+
+      @media (max-width: 768px) {
+        .list-container,
+        .chart-container {
+          width: 90%;
         }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="box" id="doctorBox">Doctors</div>
-        <div class="box" id="patientBox">Patients</div>
-        <div class="box" id="modifyBox">Modify</div>
+      <div class="navbar d-flex justify-content-between align-items-center">
+        <span class="navbar-title">Admin Dashboard</span>
+        <div class="navbar-links">
+          <a href="doctors.html" class="text-white mx-2" id="nav-link"
+            >Doctor</a
+          >
+          <a href="patients.html" class="text-white mx-2" id="nav-link"
+            >Patient</a
+          >
+          <a href="users.html" class="text-white mx-2" id="nav-link">Staff</a>
+        </div>
+      </div>
+
+      <div class="welcome-message">Welcome, Himanshu Bhatia</div>
+
+      <div class="content-container">
+        <div class="list-container doctor-list">
+          <h2>Doctors</h2>
+          <ul class="list">
+            <!-- Sample data -->
+            <li>Dr. John Doe</li>
+            <li>Dr. Jane Smith</li>
+            <li>Dr. Emily Davis</li>
+            <li>Dr. Michael Johnson</li>
+            <li>Dr. Linda Brown</li>
+            <li>Dr. Kevin White</li>
+            <li>Dr. Amy Taylor</li>
+            <li>Dr. Daniel Miller</li>
+            <li>Dr. Sarah Wilson</li>
+            <li>Dr. Matthew Moore</li>
+            <li>Dr. Lisa Thompson</li>
+            <li>Dr. Robert Lee</li>
+            <li>Dr. Patricia Harris</li>
+            <li>Dr. David Clark</li>
+            <li>Dr. Jessica Lewis</li>
+          </ul>
+          <div class="view-more">
+            <a href="doctors.html">View or Edit More</a>
+          </div>
+        </div>
+
+        <div class="list-container patient-list">
+          <h2>Patients</h2>
+          <ul class="list">
+            <!-- Sample data -->
+            <li>Jacob Adams</li>
+            <li>Emily Robinson</li>
+            <li>Daniel Lee</li>
+            <li>Charlotte Scott</li>
+            <li>Matthew Young</li>
+            <li>Grace King</li>
+            <li>Ryan Wright</li>
+            <li>Lily Green</li>
+            <li>Elijah Baker</li>
+            <li>Hannah Nelson</li>
+            <li>Jameson Carter</li>
+            <li>Chloe Mitchell</li>
+            <li>Logan Perez</li>
+            <li>Victoria Roberts</li>
+            <li>Jackson Murphy</li>
+          </ul>
+          <div class="view-more">
+            <a href="patients.html">View or Edit More</a>
+          </div>
+        </div>
+
+        <div class="list-container staff-list">
+          <h2>Hospital Staff</h2>
+          <ul class="list">
+            <!-- Sample data -->
+            <li>John Smith</li>
+            <li>Emma Johnson</li>
+            <li>Michael Brown</li>
+            <li>Olivia Davis</li>
+            <li>William Wilson</li>
+            <li>Ava Martinez</li>
+            <li>James Anderson</li>
+            <li>Sophia Taylor</li>
+            <li>Benjamin Thomas</li>
+            <li>Isabella Harris</li>
+            <li>Lucas Clark</li>
+            <li>Mia Lewis</li>
+            <li>Henry Walker</li>
+            <li>Amelia Hall</li>
+            <li>Alexander Allen</li>
+          </ul>
+          <div class="view-more">
+            <a href="users.html">View or Edit More</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-container">
+        <div class="chart-container">
+          <h2>Doctors/Patients</h2>
+          <canvas id="doctorsPatientsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <h2>Staff/Doctors</h2>
+          <canvas id="staffDoctorsChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+          <h2>Staff/Patients</h2>
+          <canvas id="staffPatientsChart"></canvas>
+        </div>
+      </div>
     </div>
 
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Redirect to doctors page
-        document.getElementById("doctorBox").addEventListener("click", function() {
-            window.location.href = "doctors.html";
+      // Doctors to Patients Ratio Chart
+      var ctx1 = document
+        .getElementById("doctorsPatientsChart")
+        .getContext("2d");
+      var doctorsPatientsChart = new Chart(ctx1, {
+        type: "bar",
+        data: {
+          labels: ["Doctors", "Patients"],
+          datasets: [
+            {
+              label: "Ratio",
+              data: [1, 15],
+              backgroundColor: ["#e91e63", "#f06292"],
+              borderColor: ["#c2185b", "#d81b60"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      // Staff to Doctors Ratio Chart
+      var ctx2 = document.getElementById("staffDoctorsChart").getContext("2d");
+      var staffDoctorsChart = new Chart(ctx2, {
+        type: "bar",
+        data: {
+          labels: ["Staff", "Doctors"],
+          datasets: [
+            {
+              label: "Ratio",
+              data: [3, 1],
+              backgroundColor: ["#e91e63", "#f06292"],
+              borderColor: ["#c2185b", "#d81b60"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      // Staff to Patients Ratio Chart
+      var ctx3 = document.getElementById("staffPatientsChart").getContext("2d");
+      var staffPatientsChart = new Chart(ctx3, {
+        type: "bar",
+        data: {
+          labels: ["Staff", "Patients"],
+          datasets: [
+            {
+              label: "Ratio",
+              data: [1, 5],
+              backgroundColor: ["#e91e63", "#f06292"],
+              borderColor: ["#c2185b", "#d81b60"],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+        },
+      });
+
+      document
+        .querySelector(".navbar-title")
+        .addEventListener("click", function () {
+          window.location.href = "adminIndex.html";
         });
 
-        // Redirect to patients page
-        document.getElementById("patientBox").addEventListener("click", function() {
-            window.location.href = "patients.html";
-        });
+      document.addEventListener("DOMContentLoaded", function () {
+        const doctorListItems = document.querySelectorAll(".doctor-list li");
 
-        // Redirect to modify page
-        document.getElementById("modifyBox").addEventListener("click", function() {
-            window.location.href = "modify.html";
+        doctorListItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            window.location.href = "doctorProfile.html";
+          });
         });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const patientListItems = document.querySelectorAll(".patient-list li");
+
+        patientListItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            window.location.href = "patientProfile.html";
+          });
+        });
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const staffListItems = document.querySelectorAll(".staff-list li");
+
+        staffListItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            window.location.href = "staffProfile.html";
+          });
+        });
+      });
     </script>
-</body>
+  </body>
 </html>

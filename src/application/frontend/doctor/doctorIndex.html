@@ -1,84 +1,345 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Doctor Dashboard</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+      .list::-webkit-scrollbar {
+        width: 8px;
+      }
 
-        .container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: 20px;
-            align-items: center;
-            justify-content: center;
-        }
+      .list::-webkit-scrollbar-track {
+        background: #f0f7ff; /* Lighter background for the scrollbar track */
+        border-radius: 10px;
+      }
 
-        .box {
-            width: 250px;
-            height: 150px;
-            background-color: #007bff;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 18px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s, transform 0.3s;
-        }
+      .list::-webkit-scrollbar-thumb {
+        background-color: #80aaff; /* Light blue color for the scrollbar thumb */
+        border-radius: 10px;
+        border: 2px solid #f0f7ff; /* Padding around the thumb for a rounded appearance */
+      }
 
-        .box:hover {
-            background-color: #0056b3;
-            transform: scale(1.05);
-        }
+      .list::-webkit-scrollbar-thumb:hover {
+        background-color: #4d88ff; /* Darker blue on hover */
+      }
+      /* Existing CSS */
 
-        .box:active {
-            background-color: #00408d;
-        }
+      body {
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #235097, #809098);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        background-color: #12224c;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa726;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-title {
+        font-size: 20px;
+        cursor: pointer;
+      }
+
+      .navbar-links a {
+        color: #f0f7ff;
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        font-size: 18px;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      .navbar-links a:hover,
+      .navbar-links a:focus {
+        background-color: #4d88ff;
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      /* Card and List Styling */
+      .content-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        width: 100%;
+        flex-wrap: wrap;
+      }
+
+      .card-container {
+        background-color: #1a2d5e;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 48%;
+        margin: 10px;
+        flex: 1 1 300px;
+      }
+
+      .card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      .patient-name {
+        display: flex;
+        align-items: center;
+      }
+
+      .patient-name img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        margin-right: 10px;
+      }
+
+      .card-actions button {
+        margin-right: 10px;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #4d88ff;
+        color: #fff;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .card-actions button:hover {
+        background-color: #3b5998;
+        transform: scale(1.05);
+      }
+
+      .navbar-title:hover,
+      .navbar-title:focus {
+        /* background-color: #4d88ff; */
+        color: #f0f7ff; /* Change text color on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:active {
+        background-color: #357ae8;
+      }
+
+      .list-container {
+        background-color: #12224c;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 48%;
+        margin: 10px;
+        flex: 1 1 300px;
+      }
+
+      .list-container h3 {
+        text-align: center;
+        margin-bottom: 15px;
+      }
+
+      .list {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        max-height: 250px;
+        overflow-y: auto;
+      }
+
+      .list li {
+        background-color: #294074;
+        padding: 10px;
+        margin-bottom: 8px;
+        border-radius: 4px;
+      }
+
+      .list li:hover {
+        background-color: #3b5998;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .view-more {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      .view-more a {
+        color: #ffa726;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      .view-more a:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+      }
+
+      /* Availability Card */
+      .availability-card {
+        background-color: #1a2d5e;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+      }
+
+      .availability-card h3 {
+        margin-bottom: 15px;
+        text-align: center;
+      }
+
+      .availability {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+      }
+
+      .availability span {
+        cursor: pointer;
+        font-weight: bold;
+        background-color: #294074;
+        padding: 10px;
+        border-radius: 4px;
+        flex: 1;
+        text-align: center;
+        margin: 0 5px;
+      }
+
+      .availability span:hover {
+        background-color: #3b5998;
+      }
+
+      .availability .view-more-btn {
+        margin-top: 10px;
+        display: block;
+        text-align: center;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <div class="box" id="addSchedule">Add Schedule</div>
-        <div class="box" id="viewAppointments">View Appointments</div>
-        <div class="box" id="suggestTests">Suggest Medical Tests</div>
-        <div class="box" id="suggestMedicines">Suggest Medicines</div>
+      <div class="navbar d-flex justify-content-between align-items-center">
+        <span class="navbar-title">Doctor Dashboard</span>
+        <div class="navbar-links">
+          <a href="schedule/schedule.html">Update Schedule</a>
+          <a href="appointments/appointments.html">Appointments</a>
+        </div>
+      </div>
+
+      <div class="content-container">
+        <!-- Left: Next Appointment Card -->
+        <div class="card-container">
+          <div class="card-header">
+            <div class="patient-name">
+              <img src="https://via.placeholder.com/40" alt="Patient" />
+              <span>John Doe, 35</span>
+            </div>
+            <div class="card-actions">
+              <button id="start-appointment">Start</button>
+              <button id="reschedule-appointment">Reschedule</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Upcoming Appointments List -->
+        <div class="list-container">
+          <h3>Upcoming Appointments</h3>
+          <ul class="list">
+            <li>Jane Smith</li>
+            <li>Emily Davis</li>
+            <li>Michael Johnson</li>
+            <li>Linda Brown</li>
+            <li>Kevin White</li>
+            <li>Amy Taylor</li>
+            <li>Daniel Miller</li>
+            <li>Sarah Wilson</li>
+          </ul>
+          <div class="view-more">
+            <a href="appointments/appointment.html">Edit or View More</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="availability-card">
+        <h3>Update Schedule</h3>
+        <div class="availability">
+          <span onclick="redirectToSchedule('Monday')">M</span>
+          <span onclick="redirectToSchedule('Tuesday')">T</span>
+          <span onclick="redirectToSchedule('Wednesday')">W</span>
+          <span onclick="redirectToSchedule('Thursday')">T</span>
+          <span onclick="redirectToSchedule('Friday')">F</span>
+          <span onclick="redirectToSchedule('Saturday')">S</span>
+        </div>
+        <!-- <a href="schedule/schedule.html" class="view-more-btn">Update Schedule</a> -->
+      </div>
     </div>
 
     <script>
-        // Redirect to add schedule page
-        document.getElementById("addSchedule").addEventListener("click", function() {
-            window.location.href = "add_schedule.html";
+      // JavaScript for appointment card
+      document
+        .getElementById("start-appointment")
+        .addEventListener("click", function () {
+          window.location.href = "patientProfile/patientProfile.html";
         });
 
-        // Redirect to view appointments page
-        document.getElementById("viewAppointments").addEventListener("click", function() {
-            window.location.href = "view_appointments.html";
+      document
+        .getElementById("reschedule-appointment")
+        .addEventListener("click", function () {
+          alert("Staff is requested to reschedule the appointment");
+          // Code to update the card with the next upcoming appointment
         });
 
-        // Redirect to suggest medical tests page
-        document.getElementById("suggestTests").addEventListener("click", function() {
-            window.location.href = "suggest_tests.html";
+      function redirectToSchedule(day) {
+        window.location.href = "schedule/schedule.html";
+      }
+
+      document
+        .querySelector(".navbar-title")
+        .addEventListener("click", function () {
+          window.location.href = "doctorIndex.html";
         });
 
-        // Redirect to suggest medicines page
-        document.getElementById("suggestMedicines").addEventListener("click", function() {
-            window.location.href = "suggest_medicines.html";
+        document.addEventListener("DOMContentLoaded", function () {
+        const patientListItems = document.querySelectorAll(".list-container li");
+
+        patientListItems.forEach((item) => {
+          item.addEventListener("click", function () {
+            window.location.href = "appointments/appointments.html";
+          });
         });
+      });
+
+
     </script>
-</body>
+  </body>
 </html>

@@ -1,284 +1,512 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Doctor Schedule Management</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Doctors</title>
+
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background: linear-gradient(135deg, #235097, #809098);
+        color: white;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 20px;
+        box-sizing: border-box;
+      }
+
+      /* Navbar Styling */
+      .navbar {
+        width: 100%;
+        background-color: #12224c;
+        padding: 15px 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: background-color 0.3s ease;
+        font-size: 18px;
+        font-weight: bold;
+        color: #ffa726;
+        margin: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .navbar-title {
+        font-size: 20px;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+      }
+
+      .navbar-links {
+        display: flex;
+        align-items: center;
+      }
+
+      #nav-link {
+        color: rgb(109, 30, 30);
+        text-decoration: none;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        font-size: 18px;
+        font-weight: 500;
+        transition: background-color 0.3s ease, color 0.3s ease,
+          box-shadow 0.3s ease, transform 0.3s ease;
+      }
+
+      #nav-link:hover,
+      #nav-link:focus {
+        background-color: #4d88ff;
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:hover,
+      .navbar-title:focus {
+        color: #f0f7ff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: scale(1.05);
+      }
+
+      .navbar-title:active {
+        background-color: #357ae8;
+      }
+
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        width: 100%;
+      }
+
+      .header h2 {
+        color: #ffa726;
+        font-size: 24px;
+      }
+
+      .search-filter-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        width: 100%;
+      }
+
+      .search-input {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+        margin-right: 10px;
+      }
+
+      .filter-select {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        width: 200px;
+      }
+
+      .table-container {
+        background-color: #1a2d5e;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        width: 100%;
+        margin: 10px;
+        overflow-x: auto;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        color: white;
+      }
+
+      table th,
+      table td {
+        padding: 12px 15px;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #294074;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #12224c;
+      }
+
+      table tr:hover {
+        background-color: #3b5998; /* Slightly lighter shade of blue on hover */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+      }
+
+      .view-more-btn {
+        padding: 8px 12px;
+        border-radius: 5px;
+        background-color: #ffa726;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .view-more-btn:hover {
+        background-color: #ff7043;
+        transform: scale(1.05);
+        text-decoration: none;
+        color: antiquewhite;
+      }
+
+      .add-new-btn {
+        background-color: #ffa726; /* Same color as view-more-btn */
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        padding: 8px 12px;
+        border-radius: 5px;
+        margin-right: 10px; /* Space between buttons */
+        transition: background-color 0.3s ease, transform 0.3s ease;
+      }
+
+      .add-new-btn:hover {
+        background-color: #ff7043; /* Same hover color as view-more-btn */
+        transform: scale(1.05);
+        text-decoration: none;
+        color: antiquewhite;
+      }
+
+      @media (max-width: 768px) {
+        .header h2 {
+          font-size: 20px;
         }
 
-        .container {
-            width: 80%;
-            margin: auto;
-            padding: 20px;
+        .search-filter-container {
+          flex-direction: column;
+          align-items: flex-start;
         }
 
-        h1 {
-            text-align: center;
-            color: #333;
-            margin-bottom: 20px;
+        .search-input,
+        .filter-select {
+          width: 100%;
+          margin-bottom: 10px;
         }
-
-        .doctor-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .doctor-item {
-            padding: 15px;
-            margin: 5px 0;
-            background-color: #007bff;
-            color: white;
-            border-radius: 5px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .doctor-item:hover {
-            background-color: #0056b3;
-        }
-
-        .schedule {
-            margin-top: 20px;
-        }
-
-        .schedule-item {
-            padding: 15px;
-            margin: 5px 0;
-            background-color: #f8f9fa;
-            border-radius: 5px;
-            border: 1px solid #ddd;
-            position: relative;
-        }
-
-        .modify-btn {
-            background-color: #ffc107;
-            color: black;
-            border: none;
-            padding: 8px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            right: 10px;
-        }
-
-        .modify-btn:hover {
-            background-color: #e0a800;
-        }
-
-        .edit-form {
-            display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background-color: #ffffff;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .edit-form h2 {
-            margin-top: 0;
-        }
-
-        .edit-form label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        .edit-form input, .edit-form button {
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .edit-form button {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .edit-form button:hover {
-            background-color: #218838;
-        }
-
-        .no-schedule {
-            font-style: italic;
-            color: #666;
-        }
-
-        .notification {
-            display: none;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            color: white;
-            font-weight: bold;
-        }
-
-        .notification.success {
-            background-color: #28a745;
-        }
-
-        .notification.error {
-            background-color: #dc3545;
-        }
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="container">
-        <h1>Doctor Schedule Management</h1>
-        <ul id="doctorList" class="doctor-list">
-            <!-- Doctor list will be populated here -->
-        </ul>
-        <div id="doctorSchedule" class="schedule">
-            <!-- Doctor schedule will be displayed here -->
-            <p id="noSchedule" class="no-schedule"></p>
+      <div class="navbar d-flex justify-content-between align-items-center">
+        <span class="navbar-title">Admin Dashboard</span>
+        <div class="navbar-links">
+          <a href="doctors.html" class="text-white mx-2" id="nav-link"
+            >Doctor</a
+          >
+          <a href="patients.html" class="text-white mx-2" id="nav-link"
+            >Patient</a
+          >
+          <a href="users.html" class="text-white mx-2" id="nav-link">Staff</a>
         </div>
+      </div>
 
-        <div id="editForm" class="edit-form">
-            <h2>Edit Appointment</h2>
-            <label for="editDate">Date:</label>
-            <input type="date" id="editDate">
-            <label for="editTime">Time:</label>
-            <input type="time" id="editTime">
-            <label for="editPatients">Patients (comma separated):</label>
-            <input type="text" id="editPatients">
-            <button id="saveEdits">Save Changes</button>
+      <div class="header">
+        <div class="search-filter-container">
+          <a href="addNewDoctor.html" class="view-more-btn add-new-btn"
+            >Add New Doctor</a
+          >
+          <input
+            type="text"
+            class="search-input"
+            placeholder="Search by Id or Name"
+          />
+          <select class="filter-select">
+            <option value="">Filter by Specialization</option>
+            <option value="Cardiology">Cardiology</option>
+            <option value="Neurology">Neurology</option>
+            <option value="Pediatrics">Pediatrics</option>
+            <option value="Orthopedics">Orthopedics</option>
+            <option value="General Surgery">General Surgery</option>
+          </select>
         </div>
+      </div>
 
-        <div id="notification" class="notification"></div>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Doctor Id</th>
+              <th>Doctor Name</th>
+              <th>Specialization</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Dynamic rows will be added here -->
+            <tr>
+              <td>D00001</td>
+              <td>Dr. John Doe</td>
+              <td>Cardiology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00002</td>
+              <td>Dr. Jane Smith</td>
+              <td>Neurology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00003</td>
+              <td>Dr. Emily Davis</td>
+              <td>Pediatrics</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00004</td>
+              <td>Dr. Michael Johnson</td>
+              <td>Orthopedics</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00005</td>
+              <td>Dr. Linda Brown</td>
+              <td>General Surgery</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00006</td>
+              <td>Dr. Sarah Parker</td>
+              <td>Dermatology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00007</td>
+              <td>Dr. Andrew Wilson</td>
+              <td>Ophthalmology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00008</td>
+              <td>Dr. Karen Lewis</td>
+              <td>Oncology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00009</td>
+              <td>Dr. Brian Walker</td>
+              <td>Radiology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00010</td>
+              <td>Dr. Jessica Martinez</td>
+              <td>Endocrinology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00011</td>
+              <td>Dr. Thomas Harris</td>
+              <td>Gastroenterology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00012</td>
+              <td>Dr. Laura Clark</td>
+              <td>Gynecology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00013</td>
+              <td>Dr. William Robinson</td>
+              <td>Urology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00014</td>
+              <td>Dr. Susan Green</td>
+              <td>Nephrology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00015</td>
+              <td>Dr. Richard Lee</td>
+              <td>Hematology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00016</td>
+              <td>Dr. Michelle Young</td>
+              <td>Rheumatology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00017</td>
+              <td>Dr. Robert King</td>
+              <td>Psychiatry</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00018</td>
+              <td>Dr. Lisa Allen</td>
+              <td>Allergy & Immunology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00019</td>
+              <td>Dr. David Scott</td>
+              <td>Otolaryngology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00020</td>
+              <td>Dr. Angela Adams</td>
+              <td>Infectious Disease</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00021</td>
+              <td>Dr. Steven White</td>
+              <td>Pathology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00022</td>
+              <td>Dr. Jennifer Hall</td>
+              <td>Pulmonology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00023</td>
+              <td>Dr. Charles Rivera</td>
+              <td>Plastic Surgery</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00024</td>
+              <td>Dr. Maria Campbell</td>
+              <td>Neurology</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+            <tr>
+              <td>D00025</td>
+              <td>Dr. James Evans</td>
+              <td>Orthopedic Surgery</td>
+              <td>
+                <a href="doctorProfile.html" class="view-more-btn">View More</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- JS to handle search and filter (pseudo-code) -->
     <script>
-        // Sample data
-        const doctors = [
-            { 
-                name: 'Dr. John Smith', 
-                id: 'D001',
-                schedule: [
-                    { date: '2024-08-17', time: '09:00', patients: ['Alice Johnson', 'Bob Brown'] },
-                    { date: '2024-08-18', time: '10:00', patients: ['Carol White'] },
-                    { date: '2024-08-19', time: '11:00', patients: ['David Clark'] }
-                ] 
-            },
-            { 
-                name: 'Dr. Jane Doe', 
-                id: 'D002',
-                schedule: [
-                    { date: '2024-08-17', time: '09:30', patients: ['Ella Adams'] },
-                    { date: '2024-08-18', time: '10:30', patients: ['Frank Harris'] },
-                    { date: '2024-08-19', time: '11:30', patients: ['Grace Lee'] }
-                ] 
-            }
-        ];
+      // Pseudo-code for search and filter functionality
 
-        let selectedDoctorIndex = null;
-        let selectedScheduleIndex = null;
+      const searchInput = document.querySelector(".search-input");
+      const filterSelect = document.querySelector(".filter-select");
+      const tableRows = document.querySelectorAll("tbody tr");
 
-        // Function to display doctor list
-        function displayDoctorList() {
-            const doctorList = document.getElementById('doctorList');
-            doctors.forEach((doctor, index) => {
-                const doctorItem = document.createElement('li');
-                doctorItem.className = 'doctor-item';
-                doctorItem.textContent = doctor.name;
-                doctorItem.onclick = () => {
-                    selectedDoctorIndex = index;
-                    displaySchedule(index);
-                };
-                doctorList.appendChild(doctorItem);
-            });
-        }
-
-        // Function to display schedule for selected doctor
-        function displaySchedule(doctorIndex) {
-            const scheduleDiv = document.getElementById('doctorSchedule');
-            const noSchedule = document.getElementById('noSchedule');
-            const schedule = doctors[doctorIndex].schedule;
-            const nextThreeDays = new Date();
-            nextThreeDays.setDate(nextThreeDays.getDate() + 3);
-            const today = new Date().toISOString().split('T')[0];
-
-            // Clear previous schedule
-            scheduleDiv.innerHTML = '<h2>Schedule for the Next 3 Days</h2>';
-
-            const filteredSchedule = schedule.filter(day => new Date(day.date) >= new Date(today) && new Date(day.date) <= nextThreeDays);
-
-            if (filteredSchedule.length > 0) {
-                filteredSchedule.forEach((day, index) => {
-                    scheduleDiv.innerHTML += `
-                        <div class="schedule-item">
-                            <p><strong>Date:</strong> ${day.date}</p>
-                            <p><strong>Time:</strong> ${day.time}</p>
-                            <p><strong>Patients:</strong> ${day.patients.join(', ')}</p>
-                            <button class="modify-btn" onclick="showEditForm(${doctorIndex}, ${index})">Modify</button>
-                        </div>
-                    `;
-                });
-                noSchedule.style.display = 'none';
-            } else {
-                noSchedule.textContent = 'No appointments for the next 3 days.';
-                noSchedule.style.display = 'block';
-            }
-        }
-
-        // Function to show the edit form
-        function showEditForm(doctorIndex, scheduleIndex) {
-            const schedule = doctors[doctorIndex].schedule[scheduleIndex];
-            document.getElementById('editDate').value = schedule.date;
-            document.getElementById('editTime').value = schedule.time;
-            document.getElementById('editPatients').value = schedule.patients.join(', ');
-            document.getElementById('editForm').style.display = 'block';
-            selectedDoctorIndex = doctorIndex;
-            selectedScheduleIndex = scheduleIndex;
-        }
-
-        // Function to save changes to the schedule
-        document.getElementById('saveEdits').addEventListener('click', function() {
-            const dateInput = document.getElementById('editDate').value;
-            const timeInput = document.getElementById('editTime').value;
-            const patientsInput = document.getElementById('editPatients').value.split(',').map(patient => patient.trim());
-
-            if (selectedDoctorIndex === null || selectedScheduleIndex === null || !dateInput || !timeInput) {
-                alert('Please provide all required information.');
-                return;
-            }
-
-            const doctor = doctors[selectedDoctorIndex];
-            doctor.schedule[selectedScheduleIndex] = { date: dateInput, time: timeInput, patients: patientsInput };
-
-            // Hide the edit form and refresh the displayed schedule
-            document.getElementById('editForm').style.display = 'none';
-            displaySchedule(selectedDoctorIndex);
-
-            // Show success notification
-            showNotification('Changes saved successfully!', 'success');
+      searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.toLowerCase();
+        tableRows.forEach((row) => {
+          const id = row.children[0].textContent.toLowerCase();
+          const name = row.children[1].textContent.toLowerCase();
+          if (id.includes(searchTerm) || name.includes(searchTerm)) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
         });
+      });
 
-        // Function to show notification
-        function showNotification(message, type) {
-            const notification = document.getElementById('notification');
-            notification.textContent = message;
-            notification.className = `notification ${type}`;
-            notification.style.display = 'block';
-            setTimeout(() => {
-                notification.style.display = 'none';
-            }, 3000);
-        }
+      filterSelect.addEventListener("change", () => {
+        const filterValue = filterSelect.value;
+        tableRows.forEach((row) => {
+          const specialization = row.children[2].textContent;
+          if (filterValue === "" || specialization === filterValue) {
+            row.style.display = "";
+          } else {
+            row.style.display = "none";
+          }
+        });
+      });
 
-        // Initial display of doctor list
-        displayDoctorList();
+      document
+        .querySelector(".navbar-title")
+        .addEventListener("click", function () {
+          window.location.href = "adminIndex.html";
+        });
     </script>
-</body>
+  </body>
 </html>
