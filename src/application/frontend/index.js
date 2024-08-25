@@ -12,28 +12,35 @@ document.addEventListener("DOMContentLoaded", function () {
 
     form.addEventListener("submit", function (event) {
         event.preventDefault();
-        const userId = userIdInput.value;
-        const password = passwordInput.value;
+
+        const userId = userIdInput.value.trim();
+        const password = passwordInput.value.trim();
         const userPassword = users[userId];
+
+        let valid = true;
+        let errorMessages = [];
 
         // Validate User ID
         const userIdPattern = /^[ADU]\d{5}$/;
-        if (!userIdPattern.test(userIdInput.value)) {
-          valid = false;
-          errorMessages.push(
-            "• User ID must start with A, D, or U followed by exactly 5 digits."
-          );
+        if (!userIdPattern.test(userId)) {
+            valid = false;
+            errorMessages.push("• User ID must start with A, D, or U followed by exactly 5 digits.");
         }
 
         // Validate Password
-        if (passwordInput.value.length < 8) {
-          valid = false;
-          errorMessages.push(
-            "• Password must be at least 8 characters long."
-          );
+        if (password.length < 8) {
+            valid = false;
+            errorMessages.push("\n");
+            errorMessages.push("• Password must be at least 8 characters long.");
         }
 
+        // Show errors if any
+        if (!valid) {
+            errorMessage.textContent = errorMessages.join("\n");
+            return; // Stop further execution if validation fails
+        }
 
+        // Check credentials
         if (userPassword && userPassword === password) {
             errorMessage.textContent = "";
             if (userId.startsWith("U")) {
@@ -47,23 +54,23 @@ document.addEventListener("DOMContentLoaded", function () {
             errorMessage.textContent = "Wrong User Id or Password";
         }
     });
+
+    // Array of health quotes
+    const quotes = [
+        "Health is wealth.",
+        "A healthy outside starts from the inside.",
+        "To enjoy the glow of good health, you must exercise.",
+        "Take care of your body. It's the only place you have to live."
+    ];
+
+    // Function to display a random quote
+    function displayRandomQuote() {
+        const quoteText = document.getElementById("quoteText");
+        const randomIndex = Math.floor(Math.random() * quotes.length);
+        quoteText.textContent = quotes[randomIndex];
+    }
+
+    // Initial display and change quote every 30 seconds
+    displayRandomQuote();
+    setInterval(displayRandomQuote, 30000);
 });
-
- // Array of health quotes
- const quotes = [
-    "Health is wealth.",
-    "A healthy outside starts from the inside.",
-    "To enjoy the glow of good health, you must exercise.",
-    "Take care of your body. It's the only place you have to live."
-];
-
-// Function to display a random quote
-function displayRandomQuote() {
-    const quoteText = document.getElementById("quoteText");
-    const randomIndex = Math.floor(Math.random() * quotes.length);
-    quoteText.textContent = quotes[randomIndex];
-}
-
-// Initial display and change quote every 30 seconds
-displayRandomQuote();
-setInterval(displayRandomQuote, 30000);
